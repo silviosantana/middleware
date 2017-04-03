@@ -14,6 +14,7 @@ public class DateAndTimeClient {
 		
 		IDateAndTime dAndT = (IDateAndTime) registry.lookup("DateAndTime");
 		
-		System.out.println(dAndT.time("sec"));
+		System.out.println(dAndT.time("hour"));
+		System.out.println(dAndT.date("day"));
 	}
 }

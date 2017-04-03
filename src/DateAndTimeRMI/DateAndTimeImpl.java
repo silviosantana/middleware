@@ -1,7 +1,10 @@
 package DateAndTimeRMI;
 
 import java.util.*;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.*;
 
@@ -34,22 +37,13 @@ public class DateAndTimeImpl extends UnicastRemoteObject implements IDateAndTime
 		return result;
 	}
 	
-	public String date (String p1){
-		Date dNow = new Date( );
-		String result = "Invalid";
-
-		if(p1.equals("year")){
-			ft = new SimpleDateFormat ("yyyy");
-        	result = ft.format(dNow);
-		}
-		else if(p1.equals("mon")){
-			ft = new SimpleDateFormat ("M");
-			result = ft.format(dNow);
-		}
-		else if(p1.equals("day")){
-			ft = new SimpleDateFormat ("d");
-			result = ft.format(dNow);
-		}
+	public String date (String p1) throws RemoteException, NotBoundException{
+		//* obtain a reference to a bootstrap remote object registry */
+		Registry registry = LocateRegistry.getRegistry("localhost", 2018);
+		
+		IDate date = (IDate) registry.lookup("Date");
+		
+		String result = date.date(p1);
 		return result;
 	}
 }
